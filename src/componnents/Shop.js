@@ -25,13 +25,23 @@ const Shop = ({
     if (selectedCategory.label !== "All") {
       params["category"] = selectedCategory.label;
     }
-    let url = `https://tfecommerce-prod-techfac-xgqfea.mo5.mogenius.io/?category=men`;
+    // var url = new URL("https://geo.example.org/api");
+    let url = new URL(
+      `https://tfecommerce-prod-techfac-xgqfea.mo5.mogenius.io/?`
+    );
+    if (params) {
+      Object.keys(params).forEach((key) =>
+        url.searchParams.append(key, params[key])
+      );
+    }
+
     fetch(url, {
       method: "GET",
     })
       .then((dat) => dat.json())
       .then((res) => {
         setProducts(res);
+        console.log(url);
       });
   }, [selectedCategory, search]);
   return (

@@ -36,13 +36,13 @@ function App() {
 
   const [cartItems, setCartItems] = useState([]);
   const addToCart = (product) => {
-    const chosenProd = cartItems.filter((item) => item.id === product.id)[0];
+    const chosenProd = cartItems.filter((item) => item._id === product._id)[0];
     if (!chosenProd) {
       product["quantity"] = 1;
       setCartItems([...cartItems, product]);
     } else {
       const newCartItems = cartItems.map((itm) => {
-        if (itm.id === product.id) {
+        if (itm._id === product._id) {
           return { ...itm, quantity: (itm.quantity += 1) };
         }
         return itm;
@@ -52,37 +52,36 @@ function App() {
   };
 
   const incrementQuantity = (product) => {
-    cartItems.map((item) => {
-      if (item.id === product.id) {
+    const newc = cartItems.map((item) => {
+      if (item._id === product._id) {
         return { ...item, quantity: (item.quantity += 1) };
       }
       return item;
     });
+    setCartItems(newc);
   };
 
   const decrementQuantity = (product) => {
-    cartItems.map((item) => {
-      if (item.id === product.id) {
+    let newc = cartItems.map((item) => {
+      if (item._id === product._id) {
         return { ...item, quantity: (item.quantity -= 1) };
       }
       return item;
     });
+    if (product.quantity === 0) {
+      newc = cartItems.filter((item) => item._id !== product._id);
+      setCartItems(newc);
+    }
+    setCartItems(newc);
   };
 
   return (
     <div>
       <Topbar />
-      <Navbar
-        cartItems={cartItems}
-        incrementQuantity={incrementQuantity}
-        decrementQuantity={decrementQuantity}
-      />
+      <Navbar />
       <Head />
       <Shop
         categories={categories}
-        cartItems={cartItems}
-        setCartItems={setCartItems}
-        addToCart={addToCart}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCAtegory}
         listCat={listCat}

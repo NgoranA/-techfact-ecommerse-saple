@@ -1,7 +1,9 @@
 import React from "react";
-import Product from "./Product";
+// import Product from "./Product";
+import Context from "../store/utils/context";
 
 const Products = (props) => {
+  const { addToCart } = React.useContext(Context);
   // let prods =
   //   props.selectedCategory.label === "All"
   //     ? props.products
@@ -21,21 +23,29 @@ const Products = (props) => {
           <div className="card0">
             {props.products.map((prod) => {
               return (
-                <Product
-                  cartItems={props.cartItems}
-                  setCartItems={props.setCartItems}
-                  key={prod.id}
-                  details={prod}
-                  addToCart={props.addToCart}
-                />
+                <div key={prod._id} className="card">
+                  <div className="img">
+                    <img
+                      alt="product img"
+                      width={"100%"}
+                      height={"220px"}
+                      src={prod.img}
+                    />
+                  </div>
+                  <div className="para">
+                    <p>{prod.title}</p>
+                    <p> {prod.price} XAF</p>
+                    <button onClick={() => addToCart(prod)} className="but">
+                      Add to card
+                    </button>
+                  </div>
+                </div>
               );
             })}
           </div>
         ) : (
           <div className="d-flex justify-content-center mb-5">
-            <p className="py-2 px-3 text-danger">
-              Products have not been found
-            </p>
+            <p className="py-2 px-3 text-danger">loading...</p>
           </div>
         )}
       </div>

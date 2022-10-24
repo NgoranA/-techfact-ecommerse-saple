@@ -41,7 +41,6 @@ const Shop = ({
       .then((dat) => dat.json())
       .then((res) => {
         setProducts(res);
-        console.log(url);
       });
   }, [selectedCategory, search]);
   return (
